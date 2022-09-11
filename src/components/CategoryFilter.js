@@ -1,36 +1,32 @@
 import React, { useState } from "react";
 
-function CategoryFilter( { categories, setFilteredValue } ) {
-  const [selectedCategory, setSelectedCategory] = useState("All")
+function CategoryFilter( { categories, setFilteredValue, filteredValue } ) {
+  const [isSelected, setIsSelected] = useState(false)
 
-  
 
 
   const handleCategoryClick = (e) => {
     setFilteredValue(e.target.value)
-    setSelectedCategory(e.target.value)
-    changeBtnClass(selectedCategory)
+    setIsSelected((isSelected) => !isSelected)
   }
 
- 
+  // const selectBtn = (filteredValue) => {
+  //   categoryBtns.map(btn => {
+  //     if( btn.props.value === filteredValue) {
+  //       return {...btn, className: "selected"}
+  //     } else {
+  //       return {...btn, className: " "}
+  //     }
+  //   })
+  // }
 
   const categoryBtns = categories.map((category) => {
-  return <button className={category} key={category} onClick={handleCategoryClick} value={category}>{category}</button>
+    if(isSelected === true) {
+      return <button className="selected" key={category} onClick={handleCategoryClick} value={category}>{category}</button>
+    } else {
+    return <button className=" " key={category} onClick={handleCategoryClick} value={category}>{category}</button>
+    }
   })
-
-  function changeBtnClass(selectedCategory) {
-    const selectedBtn = categoryBtns.map(btn => {
-      if (btn.props.value === selectedCategory) {
-        return {...btn, className: "selected"}
-      } else {
-        return {...btn}
-      }
-    })
-    return selectedBtn
-  }
-
-
-
 
   return (
     <div className="categories">
